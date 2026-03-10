@@ -1,70 +1,63 @@
 import { useState } from "react";
-import CardListItem from "./CardListItem";
-import { ListItem as ItemType } from "../types/list";
+import CardItem from "./CardItem";
 
-function CardListGroup() {
-  const [items, setItems] = useState<ItemType[]>([
-    { id: 1, text: "Teval, The Balanced Scale" },
-    { id: 2, text: "The One Ring" },
-    { id: 3, text: "Galadriel, Light of Valinor" },
-    { id: 4, text: "The Ozolith" },
-    { id: 5, text: "Wyleth, Soul of Steel" },
-  ]);
+interface Props {
+  cards: CardItem[];
+  onSelectCard: (card: CardItem) => void;
+  onDeleteCard: (id: number) => void;
+  onEditCard: (id: number) => void;
+}
 
-  const [newItem, setNewItem] = useState("");
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [editText, setEditText] = useState("");
-
-  const addItem = () => {
-    if (!newItem.trim()) return;
-
-    setItems((prev) => [...prev, { id: Date.now(), text: newItem }]);
-
-    setNewItem("");
-  };
-
-  const deleteItem = (id: number) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const startEdit = (item: ItemType) => {
-    setEditingId(item.id);
-    setEditText(item.text);
-  };
-
-  const saveEdit = (id: number) => {
-    setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, text: editText } : item)),
-    );
-    setEditingId(null);
-  };
+function CardListGroup({
+  cards,
+  onSelectCard,
+  onDeleteCard,
+  onEditCard,
+}: Props) {
+  // the hook
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   return (
     <>
-      <div className="mb-3 d-flex gap-2">
-        <input
-          className="form-control"
-          placeholder="Add new item"
-          value={newItem}
-          onChange={(e) => setNewItem(e.target.value)}
-        />
-        <button className="btn btn-primary" onClick={addItem}>
-          Add
-        </button>
-      </div>
+      {/* error message if no cards in collection */}
+      {cards.length === 0 && <p>No cards in collection :( broke ass </p>}
 
+      {/* display list */}
       <ul className="list-group">
-        {items.map((item) => (
-          <CardListItem
-            key={item.id}
-            item={item}
-            isEditing={editingId === item.id}
-            editText={editText}
-            onEditTextChange={setEditText}
-            onEdit={() => startEdit(item)}
-            onSave={() => saveEdit(item.id)}
-            onDelete={() => deleteItem(item.id)}
-          />
+        {cards.map((card, index) => (
+          <li
+            key={card.id}
+            className={
+              selectedIndex === index
+                ? "list-group-item active d-flex justify-content-between"
+                : "list-group-item d-flex justify-content-between"
+            }
+          >
+            <span
+              onClick={() => {
+                setSelectedIndex(index);
+                onSelectCard(card);
+              }}
+            >
+              {card.title}
+            </span>
+
+            <div>
+              <button
+                className="btn btn-sm btn-warning me-2"
+                onClick={() => onEditCard(card.id)}
+              >
+                Edit
+              </button>
+
+              <button
+                className="btn btn-sm btn-danger"
+                onClick={() => onDeleteCard(card.id)}
+              >
+                Delete
+              </button>
+            </div>
+          </li>
         ))}
       </ul>
     </>
