@@ -8,7 +8,7 @@ interface Props {
   onEditCard: (id: number) => void;
 }
 
-function CardListGroup({
+function TextListGroup({
   cards,
   onSelectCard,
   onDeleteCard,
@@ -64,4 +64,4 @@ function CardListGroup({
   );
 }
 
-export default CardListGroup;
+export default TextListGroup;

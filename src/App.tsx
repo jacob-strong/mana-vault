@@ -1,8 +1,7 @@
 import { useState } from "react";
-
 import CardItem from "./components/CardItem";
-import CardListGroup from "./components/CardListGroup";
 import SearchBar from "./components/SearchBar";
+import TextListGroup from "./components/TextListGroup";
 
 function App() {
   const [cards, setCards] = useState<CardItem[]>([
@@ -55,7 +54,7 @@ function App() {
         <SearchBar onAdd={addItem} />
       </div>
       <div className="container mt-4">
-        <CardListGroup cards={cards} onSelectCard={handleSelectCard} onDeleteCard={deleteItem}onEditCard={editItem}/>
+        <TextListGroup cards={cards} onSelectCard={handleSelectCard} onDeleteCard={deleteItem}onEditCard={editItem}/>
       </div>
     </>
   );
