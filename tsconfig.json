@@ -16,8 +16,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "exactOptionalPropertyTypes": true,
-    "baseUrl": ".",
-    "paths": { "@/*": ["src/*"] }
+    "paths": {
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@utils/*": ["./src/utils/*"]
+    },
   },
   "include": ["src"]
 }
