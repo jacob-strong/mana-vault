@@ -118,7 +118,7 @@ export const CardTile = memo(function CardTile({
       {/* Footer */}
       <div style={{
         padding: '8px 10px',
-        background: '#0d111c',
+        background: '#111827',
         borderTop: `1px solid ${glow}22`,
       }}>
         <div style={{
